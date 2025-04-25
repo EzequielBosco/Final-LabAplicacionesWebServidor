@@ -1,6 +1,8 @@
-﻿namespace Final.Lab.Domain.Models;
+﻿using Final.Lab.Domain.Repositories.Base;
 
-public abstract class Base
+namespace Final.Lab.Domain.Models;
+
+public abstract class Base : IEntity
 {
     public int Id { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

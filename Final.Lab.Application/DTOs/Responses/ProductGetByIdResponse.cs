@@ -1,11 +1,10 @@
 ﻿namespace Final.Lab.Application.DTOs.Responses;
 
-public class ProductResponse
+public class ProductGetByIdResponse
 {
-    public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public string Code { get; set; } = string.Empty;
-    public string? Description { get; set; }
+    public string? Description { get; set; } = string.Empty;
     public decimal UnitPrice { get; set; }
     public int Stock { get; set; }
     public int ProductTypeId { get; set; }

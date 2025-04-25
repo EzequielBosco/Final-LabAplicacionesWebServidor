@@ -13,4 +13,6 @@ public class ProductType : Base
     public string Code { get; set; } = string.Empty;
     [MaxLength(255)]
     public string? Description { get; set; }
+
+    public List<Product> Products { get; set; } = new List<Product>();
 }

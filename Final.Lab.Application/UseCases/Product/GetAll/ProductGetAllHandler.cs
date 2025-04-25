@@ -15,6 +15,7 @@ public class ProductGetAllHandler(IProductRepository productRepository, ILogger<
 
             var result = products.Select(x => new ProductResponse
             {
+                Id = x.Id,
                 Name = x.Name,
                 Code = x.Code,
                 Description = x.Description,

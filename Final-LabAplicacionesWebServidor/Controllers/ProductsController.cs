@@ -1,4 +1,5 @@
 ﻿using Final.Lab.Application.UseCases.Product.GetAll;
+using Final.Lab.Application.UseCases.Product.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,6 +13,14 @@ public class ProductsController(ISender sender) : ControllerBase
     public async Task<IActionResult> GetAll()
     {
         var query = new ProductGetAllQuery();
+        var result = await sender.Send(query);
+        return Ok(result);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var query = new ProductGetByIdQuery(id);
         var result = await sender.Send(query);
         return Ok(result);
     }

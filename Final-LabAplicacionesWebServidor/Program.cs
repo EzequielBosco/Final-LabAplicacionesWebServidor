@@ -1,6 +1,8 @@
 using Final.Lab.Application;
+using Final.Lab.Application.UseCases.Product.GetById;
 using Final.Lab.Infrastructure.Data;
 using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Reflection;
@@ -18,7 +20,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("FinalLabAppWebServidorConnectionString")));
 
 //-- FluentValidation --
-builder.Services.AddValidatorsFromAssemblyContaining<Final.Lab.Domain.Validations.ProductValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<Final.Lab.Domain.Validations.ProductValidator>()
+                .AddValidatorsFromAssemblyContaining<ProductGetByIdValidation>();
+builder.Services.AddFluentValidationAutoValidation();
 
 //-- MediatR -----------------------------
 builder.Services.AddMediatR(config =>
@@ -33,9 +37,13 @@ var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").B
 Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
 builder.Host.UseSerilog();
 
+//-- Unit of Work ------------------------
+builder.Services.AddScoped<Final.Lab.Domain.Repositories.IUnitOfWork, Final.Lab.Infrastructure.Repositories.UnitOfWork>();
+
 builder.Services
 //-- Repositories ------------------------
     .AddScoped<Final.Lab.Domain.Repositories.IProductRepository, Final.Lab.Infrastructure.Repositories.ProductRepository>()
+    .AddScoped<Final.Lab.Domain.Repositories.IProductTypeRepository, Final.Lab.Infrastructure.Repositories.ProductTypeRepository>()
 //-- Services ----------------------------
     .AddScoped<Final.Lab.Application.Services.Contracts.IProductService, Final.Lab.Application.Services.ProductService>();
 
