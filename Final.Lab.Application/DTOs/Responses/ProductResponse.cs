@@ -1,0 +1,11 @@
+﻿namespace Final.Lab.Application.DTOs.Responses;
+
+public class ProductResponse
+{
+    public string Name { get; set; } = string.Empty;
+    public string Code { get; set; } = string.Empty;
+    public string? Description { get; set; }
+    public decimal UnitPrice { get; set; }
+    public int Stock { get; set; }
+    public int ProductTypeId { get; set; }
+}
