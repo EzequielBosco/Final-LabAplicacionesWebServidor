@@ -1,7 +1,7 @@
 ﻿using Final.Lab.Application.DTOs.Requests.Product;
 using Swashbuckle.AspNetCore.Filters;
 
-namespace Final_LabAplicacionesWebServidor.Controllers.Examples;
+namespace Final_LabAplicacionesWebServidor.Controllers.Examples.Product;
 
 public class ProductUpdateExample : IExamplesProvider<ProductUpdateRequest>
 {
@@ -9,9 +9,9 @@ public class ProductUpdateExample : IExamplesProvider<ProductUpdateRequest>
     {
         return new ProductUpdateRequest
         {
-            Name = "Nuevo Producto",
+            Name = "Producto actualizado",
             Code = "COD",
-            Description = "Descripción de nuevo producto.",
+            Description = "Descripción de producto actualizado.",
             UnitPrice = 199.99m,
             Stock = 50,
             ProductTypeId = 1

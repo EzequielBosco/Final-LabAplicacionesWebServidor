@@ -40,7 +40,7 @@ public class ProductGetAllHandler(IProductRepository productRepository,
         {
             var msg = "Error al obtener todos los productos.";
             logger.LogError(ex, msg);
-            throw new Exception(msg, ex);
+            throw new Exception(msg);
         }
     }
 }

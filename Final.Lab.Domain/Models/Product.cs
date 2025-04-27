@@ -10,7 +10,7 @@ public class Product : Entity
     [MaxLength(100)]
     public string Name { get; set; } = string.Empty;
     [Required]
-    [MaxLength(100)]
+    [MaxLength(20)]
     [MinLength(4)]
     public string Code { get; set; } = string.Empty;
     [MaxLength(500)]
