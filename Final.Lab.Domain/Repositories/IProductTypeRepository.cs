@@ -1,9 +1,8 @@
 ﻿using Final.Lab.Domain.Models;
+using Final.Lab.Domain.Repositories.Base;
 
 namespace Final.Lab.Domain.Repositories;
 
-public interface IProductTypeRepository
+public interface IProductTypeRepository : IRepositoryBase<ProductType>
 {
-    Task<List<ProductType>> GetAllActive();
-    Task<ProductType?> GetByCodeActive(string code);
 }

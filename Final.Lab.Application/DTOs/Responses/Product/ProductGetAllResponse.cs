@@ -1,6 +1,8 @@
-﻿namespace Final.Lab.Application.DTOs.Responses;
+﻿using Final.Lab.Application.DTOs.Responses.ProductType;
 
-public class ProductResponse
+namespace Final.Lab.Application.DTOs.Responses.Product;
+
+public class ProductGetAllResponse
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
@@ -8,5 +10,5 @@ public class ProductResponse
     public string? Description { get; set; }
     public decimal UnitPrice { get; set; }
     public int Stock { get; set; }
-    public int ProductTypeId { get; set; }
+    public ProductTypeGetAllResponse ProductType { get; set; } = new ProductTypeGetAllResponse();
 }

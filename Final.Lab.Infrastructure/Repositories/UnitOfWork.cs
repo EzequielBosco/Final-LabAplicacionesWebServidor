@@ -28,7 +28,7 @@ public class UnitOfWork : IUnitOfWork
         _context.Dispose();
     }
 
-    public async Task<List<Product>> GetByProductTypeId(int productTypeId)
+    public async Task<List<Product>> GetProductByProductTypeId(int productTypeId)
     {
         var result = await _context.Products
                            .Where(p => p.ProductTypeId == productTypeId)

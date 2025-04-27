@@ -10,17 +10,17 @@ namespace Final_LabAplicacionesWebServidor.Controllers;
 public class ProductsController(ISender sender) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll(bool? includeDeleted = false)
     {
-        var query = new ProductGetAllQuery();
+        var query = new ProductGetAllQuery(includeDeleted);
         var result = await sender.Send(query);
         return Ok(result);
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(int id, bool? includeDeleted = false)
     {
-        var query = new ProductGetByIdQuery(id);
+        var query = new ProductGetByIdQuery(id, includeDeleted);
         var result = await sender.Send(query);
         return Ok(result);
     }

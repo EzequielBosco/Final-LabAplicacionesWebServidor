@@ -1,12 +1,10 @@
-﻿using Final.Lab.Domain.Repositories.Base;
+﻿namespace Final.Lab.Domain.Models.Base;
 
-namespace Final.Lab.Domain.Models;
-
-public abstract class Base : IEntity
+public abstract class Entity : IEntity
 {
     public int Id { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
-    public bool IsDeleted { get; set; } = false;
+    public bool IsDeleted { get; set; }
     public DateTime? DeletedAt { get; set; }
 }

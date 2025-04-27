@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Final.Lab.Domain.Models.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace Final.Lab.Domain.Models;
 
-public class ProductType : Base
+public class ProductType : Entity
 {
     [Required]
     [MaxLength(50)]

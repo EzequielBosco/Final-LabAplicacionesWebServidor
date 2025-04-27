@@ -1,4 +1,5 @@
-﻿using Final.Lab.Domain.Repositories.Base;
+﻿using Final.Lab.Domain.Models.Base;
+using Final.Lab.Domain.Repositories.Base;
 using Final.Lab.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -16,49 +17,90 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class, IEntity
         _dbSet = _context.Set<T>();
     }
 
-    public async Task<List<T>> GetAll()
+    protected IQueryable<T> GetQueryable(bool? includeDeleted)
     {
-        return await _dbSet.ToListAsync();
+        if (includeDeleted.HasValue && includeDeleted == true)
+        {
+            return _dbSet;
+        }
+
+        return _dbSet.Where(x => !x.IsDeleted);
+    }
+
+    protected virtual IQueryable<T> ApplyIncludes(IQueryable<T> query)
+    {
+        return query;
+    }
+
+    public virtual async Task<List<T>> GetAll(bool? includeDeleted)
+    {
+        var result = await GetQueryable(includeDeleted)
+                           .ToListAsync();
+        return result;
     }
     
-    public async Task<List<T>> GetAllBy(Expression<Func<T, bool>> predicate)
+    public virtual async Task<List<T>> GetAllBy(Expression<Func<T, bool>> predicate, bool? includeDeleted)
     {
-        return await _dbSet.Where(predicate).ToListAsync();
+        var result = await GetQueryable(includeDeleted)
+                           .Where(predicate)
+                           .ToListAsync();
+        return result;
     }
 
-    public async Task<T?> GetById(int id)
+    public virtual async Task<T?> GetById(int id, bool? includeDeleted)
     {
-        return await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+        var result = await GetQueryable(includeDeleted)
+                           .FirstOrDefaultAsync(x => x.Id == id);
+        return result;
     }
 
-    public async Task<T?> GetBy(Expression<Func<T, bool>> predicate)
+    public virtual async Task<T?> GetBy(Expression<Func<T, bool>> predicate, bool? includeDeleted)
     {
-        return await _dbSet.FirstOrDefaultAsync(predicate);
+        var result = await GetQueryable(includeDeleted)
+                           .FirstOrDefaultAsync(predicate);
+        return result;
     }
 
-    public async Task<bool> ExistsBy(Expression<Func<T, bool>> predicate)
+    public async Task<bool> ExistsBy(Expression<Func<T, bool>> predicate, bool? includeDeleted)
     {
-        return await _dbSet.AnyAsync(predicate);
+        var result =  await GetQueryable(includeDeleted)
+                            .AnyAsync(predicate);
+        return result;
     }
 
     public async Task<bool> Create(T entity)
     {
+        entity.CreatedAt = DateTime.UtcNow;
         await _dbSet.AddAsync(entity);
         return true;
     }
 
-    public Task<bool> Update(T entity)
+    public async Task<bool> Update(T entity)
     {
+        entity.UpdatedAt = DateTime.UtcNow;
         _dbSet.Update(entity);
-        return Task.FromResult(true);
+        return await Task.FromResult(true);
     }
 
-    public async Task<bool> Delete(int id)
+    public async Task<bool> Patch(T entity, Action<T> updateAction)
     {
-        var entity = await GetById(id);
-        if (entity == null) return false;
+        entity.UpdatedAt = DateTime.UtcNow;
+        updateAction(entity);
+        _context.Entry(entity).State = EntityState.Modified;
+        return await Task.FromResult(true);
+    }
 
+    public async Task<bool> SoftDelete(T entity)
+    {
+        entity.IsDeleted = true;
+        entity.DeletedAt = DateTime.UtcNow;
+        _dbSet.Update(entity);
+        return await Task.FromResult(true);
+    }
+
+    public async Task<bool> Delete(T entity)
+    {
         _dbSet.Remove(entity);
-        return true;
+        return await Task.FromResult(true);
     }
 }
