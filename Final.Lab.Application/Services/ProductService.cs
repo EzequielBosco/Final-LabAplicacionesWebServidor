@@ -11,11 +11,12 @@ public class ProductService(IProductRepository productRepository,
                             ProductGetByIdValidation validations,
                             ILogger<ProductGetByIdHandler> logger) : IProductService
 {
-    public async Task<ProductGetByIdResponse> GetById(ProductGetByIdQuery query, CancellationToken cancellationToken)
+    public async Task<ProductGetByIdResponse> GetById(int productId)
     {
         try
         {
-            var validationResult = await validations.ValidateAsync(query, cancellationToken);
+            var query = new ProductGetByIdQuery(productId);
+            var validationResult = await validations.ValidateAsync(query);
 
             if (!validationResult.IsValid)
             {

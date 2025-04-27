@@ -9,7 +9,7 @@ public class ProductGetByIdHandler(IProductService productService) :
 {
     public async Task<ProductGetByIdResponse> Handle(ProductGetByIdQuery query, CancellationToken cancellationToken)
     {
-        var result = await productService.GetById(query, cancellationToken);
+        var result = await productService.GetById(query.Id);
         return result;
     }
 }

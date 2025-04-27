@@ -1,5 +1,7 @@
-﻿using Final.Lab.Application.UseCases.Product.GetAll;
+﻿using Final.Lab.Application.DTOs.Requests.Product;
+using Final.Lab.Application.UseCases.Product.GetAll;
 using Final.Lab.Application.UseCases.Product.GetById;
+using Final.Lab.Application.UseCases.Product.Update;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,6 +24,14 @@ public class ProductsController(ISender sender) : ControllerBase
     {
         var query = new ProductGetByIdQuery(id, includeDeleted);
         var result = await sender.Send(query);
+        return Ok(result);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, ProductUpdateRequest request)
+    {
+        var command = new ProductUpdateCommand(id, request);
+        var result = await sender.Send(command);
         return Ok(result);
     }
 }

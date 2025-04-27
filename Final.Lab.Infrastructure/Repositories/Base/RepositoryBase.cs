@@ -47,7 +47,7 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class, IEntity
         return result;
     }
 
-    public virtual async Task<T?> GetById(int id, bool? includeDeleted)
+    public virtual async Task<T?> GetById(int id, bool? includeDeleted = false)
     {
         var result = await GetQueryable(includeDeleted)
                            .FirstOrDefaultAsync(x => x.Id == id);
@@ -70,21 +70,18 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class, IEntity
 
     public async Task<bool> Create(T entity)
     {
-        entity.CreatedAt = DateTime.UtcNow;
         await _dbSet.AddAsync(entity);
         return true;
     }
 
     public async Task<bool> Update(T entity)
     {
-        entity.UpdatedAt = DateTime.UtcNow;
         _dbSet.Update(entity);
         return await Task.FromResult(true);
     }
 
     public async Task<bool> Patch(T entity, Action<T> updateAction)
     {
-        entity.UpdatedAt = DateTime.UtcNow;
         updateAction(entity);
         _context.Entry(entity).State = EntityState.Modified;
         return await Task.FromResult(true);
@@ -92,8 +89,6 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class, IEntity
 
     public async Task<bool> SoftDelete(T entity)
     {
-        entity.IsDeleted = true;
-        entity.DeletedAt = DateTime.UtcNow;
         _dbSet.Update(entity);
         return await Task.FromResult(true);
     }

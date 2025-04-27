@@ -7,7 +7,7 @@ public interface IRepositoryBase<T> where T : class, IEntity
 {
     Task<List<T>> GetAll(bool? includeDeleted);
     Task<List<T>> GetAllBy(Expression<Func<T, bool>> predicate, bool? includeDeleted);
-    Task<T?> GetById(int id, bool? includeDeleted);
+    Task<T?> GetById(int id, bool? includeDeleted = false);
     Task<T?> GetBy(Expression<Func<T, bool>> predicate, bool? includeDeleted);
     Task<bool> ExistsBy(Expression<Func<T, bool>> predicate, bool? includeDeleted);
     Task<bool> Create(T entity);
