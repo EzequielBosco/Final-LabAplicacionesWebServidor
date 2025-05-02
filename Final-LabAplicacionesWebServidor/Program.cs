@@ -49,9 +49,9 @@ builder.Services.AddMediatR(config =>
 });
 
 //-- Serilog -----------------------------
-builder.Logging.ClearProviders();
-var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.Development.json").Build();
 Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
+builder.Logging.ClearProviders();
 builder.Host.UseSerilog();
 
 //-- Unit of Work ------------------------
