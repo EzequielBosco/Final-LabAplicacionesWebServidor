@@ -89,8 +89,15 @@ public class RepositoryBase<T> : IRepositoryBase<T> where T : class, IEntity
 
     public async Task<bool> SoftDelete(T entity)
     {
-        _dbSet.Update(entity);
-        return await Task.FromResult(true);
+        if (entity is IEntity deletableEntity)
+        {
+            deletableEntity.IsDeleted = true;
+            deletableEntity.DeletedAt = DateTime.UtcNow;
+
+            return await Task.FromResult(true);
+        }
+
+        return await Task.FromResult(false);
     }
 
     public async Task<bool> Delete(T entity)

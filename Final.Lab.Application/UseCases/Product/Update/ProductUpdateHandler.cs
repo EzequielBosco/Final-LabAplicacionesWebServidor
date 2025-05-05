@@ -28,7 +28,7 @@ public class ProductUpdateHandler(IProductRepository productRepository,
                 return Result.Failure<Domain.Results.Unit>(Error.Validation(errors));
             }
 
-            var product = productRepository.GetById(command.Id).Result;
+            var product = await productRepository.GetById(command.Id);
             if (product == null)
             {
                 var msg = $"Error al obtener el producto con Id: {command.Id}.";

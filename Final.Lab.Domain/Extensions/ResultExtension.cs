@@ -10,11 +10,11 @@ public static class ResultExtension
     {
         if (result.IsSuccess)
         {
-            if (result.HttpStatusCode == HttpStatusCode.Created)
+            if (result.HttpStatusCode == HttpStatusCode.Created || result.HttpStatusCode == HttpStatusCode.NoContent)
             {
                 return new ObjectResult(result.Value)
                 {
-                    StatusCode = (int)HttpStatusCode.Created
+                    StatusCode = (int)result.HttpStatusCode
                 };
             }
 

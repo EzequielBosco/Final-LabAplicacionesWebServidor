@@ -3,12 +3,11 @@ using Final.Lab.Application.UseCases.Product.Create;
 using Final.Lab.Application.UseCases.Product.ExistsByCode;
 using Final.Lab.Application.UseCases.Product.GetAll;
 using Final.Lab.Application.UseCases.Product.GetById;
+using Final.Lab.Application.UseCases.Product.SoftDelete;
 using Final.Lab.Application.UseCases.Product.Update;
 using Final.Lab.Domain.Extensions;
-using Final_LabAplicacionesWebServidor.Controllers.Examples.Product;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Filters;
 
 namespace Final_LabAplicacionesWebServidor.Controllers;
 
@@ -41,7 +40,6 @@ public class ProductsController(ISender sender) : ControllerBase
     }
 
     [HttpPost]
-    [SwaggerRequestExample(typeof(ProductCreateRequest), typeof(ProductCreateExample))]
     public async Task<IActionResult> Create(ProductCreateRequest request)
     {
         var command = new ProductCreateCommand(request);
@@ -53,6 +51,14 @@ public class ProductsController(ISender sender) : ControllerBase
     public async Task<IActionResult> Update(int id, ProductUpdateRequest request)
     {
         var command = new ProductUpdateCommand(id, request);
+        var result = await sender.Send(command);
+        return result.ToActionResult();
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> SoftDelete(int id)
+    {
+        var command = new ProductSoftDeleteCommand(id);
         var result = await sender.Send(command);
         return result.ToActionResult();
     }
