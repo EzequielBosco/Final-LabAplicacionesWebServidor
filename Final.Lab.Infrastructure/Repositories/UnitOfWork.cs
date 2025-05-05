@@ -8,6 +8,7 @@ namespace Final.Lab.Infrastructure.Repositories;
 public class UnitOfWork : IUnitOfWork
 {
     private readonly DataContext _context;
+    protected readonly DbSet<Product> _dbSet;
     public IProductRepository ProductRepository { get; }
     public IProductTypeRepository ProductTypeRepository { get; }
 
@@ -16,6 +17,7 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
         ProductRepository = productRepository;
         ProductTypeRepository = productTypeRepository;
+        _dbSet = _context.Set<Product>();
     }
 
     public async Task<int> Save()
@@ -28,12 +30,23 @@ public class UnitOfWork : IUnitOfWork
         _context.Dispose();
     }
 
-    public async Task<List<Product>> GetProductByProductTypeId(int productTypeId)
+    public async Task<List<Product>> GetProductByProductTypeId(int productTypeId, bool? includeDeleted)
     {
-        var result = await _context.Products
+        var result = await GetQueryable(includeDeleted)
+                           .Include(p => p.ProductType)
                            .Where(p => p.ProductTypeId == productTypeId)
                            .ToListAsync();
 
         return result;
+    }
+
+    protected IQueryable<Product> GetQueryable(bool? includeDeleted)
+    {
+        if (includeDeleted.HasValue && includeDeleted == true)
+        {
+            return _dbSet;
+        }
+
+        return _dbSet.Where(x => !x.IsDeleted);
     }
 }

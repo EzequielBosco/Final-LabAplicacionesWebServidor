@@ -44,7 +44,8 @@ public class ProductUpdateHandler(IProductRepository productRepository,
                     logger.LogError("Error en ProductType GetById: {Errors}", existsProductType.Errors.JoinMessages());
                     return Result.Failure<Domain.Results.Unit>(existsProductType.Errors);
                 }
-                else if (existsProductType.Value == null)
+                
+                if (existsProductType.Value == null)
                 {
                     var msg = $"El tipo de producto con id {command.ProductTypeId} no existe.";
                     logger.LogError(msg);

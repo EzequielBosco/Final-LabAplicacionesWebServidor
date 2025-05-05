@@ -38,7 +38,8 @@ public class ProductCreateHandler(IProductService productService,
                 logger.LogError("Error en Product ExistsByCode: {Errors}", existsProduct.Errors.JoinMessages());
                 return Result.Failure<ProductCreateResponse>(existsProduct.Errors);
             }
-            else if (existsProduct.Value)
+            
+            if (existsProduct.Value)
             {
                 var msg = $"El producto con código {command.Code} ya existe.";
                 logger.LogError(msg);
@@ -51,7 +52,8 @@ public class ProductCreateHandler(IProductService productService,
                 logger.LogError("Error en ProductType GetById: {Errors}", existsProductType.Errors.JoinMessages());
                 return Result.Failure<ProductCreateResponse>(existsProductType.Errors);
             }
-            else if (existsProductType.Value == null)
+            
+            if (existsProductType.Value == null)
             {
                 var msg = $"El tipo de producto con id {command.ProductTypeId} no existe.";
                 logger.LogError(msg);

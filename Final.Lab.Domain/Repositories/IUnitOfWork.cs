@@ -6,6 +6,6 @@ public interface IUnitOfWork : IDisposable
 {
     IProductRepository ProductRepository { get; }
     IProductTypeRepository ProductTypeRepository { get; }
-    Task<List<Product>> GetProductByProductTypeId(int productTypeId);
+    Task<List<Product>> GetProductByProductTypeId(int productTypeId, bool? includeDeleted = false);
     Task<int> Save();
 }
