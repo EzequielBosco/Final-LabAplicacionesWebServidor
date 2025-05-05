@@ -35,7 +35,7 @@ public class ClientCreateHandler(IClientRepository clientRepository,
                 Email = command.Email,
                 Phone = command.Phone,
                 Address = command.Address,
-                Code = new Guid().ToString(),
+                Code = ClientExtensions.GenerateCode(),
                 CreatedAt = DateTime.UtcNow
             };
 

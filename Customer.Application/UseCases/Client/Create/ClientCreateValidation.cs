@@ -26,7 +26,7 @@ public class ClientCreateValidation : AbstractValidator<ClientCreateCommand>
 
         RuleFor(x => x.Phone)
             .MaximumLength(15).WithMessage("El teléfono no puede exceder los 15 caracteres.")
-            .Matches(@"^\d{10}$").When(x => !string.IsNullOrEmpty(x.Phone))
+            .MinimumLength(10).When(x => !string.IsNullOrEmpty(x.Phone))
             .WithMessage("El formato del teléfono es inválido. Debe contener 10 dígitos.");
 
         RuleFor(x => x.Address)

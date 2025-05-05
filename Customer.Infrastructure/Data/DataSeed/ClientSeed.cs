@@ -1,4 +1,5 @@
-﻿using Customer.Domain.Models;
+﻿using Customer.Domain.Extensions;
+using Customer.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +16,7 @@ public class ClientSeed : IEntityTypeConfiguration<Client>
             FirstName = "Juan",
             LastName = "Darin",
             Address = "123 Main St",
+            Code = "CL-82A127A2",
             Phone = "1234567890",
             DateOfBirth = new DateTime(1990, 01, 01),
             Email = "emailjuan@gmail.com",
@@ -25,10 +27,11 @@ public class ClientSeed : IEntityTypeConfiguration<Client>
         },
         new Client
         {
-            Id = 1,
+            Id = 2,
             FirstName = "Alfredo",
             LastName = "Favalli",
             Address = "345 Main St",
+            Code = "CL-86A517A9",
             Phone = "1298765430",
             DateOfBirth = new DateTime(1992, 01, 01),
             Email = "emailalfredo@gmail.com",
