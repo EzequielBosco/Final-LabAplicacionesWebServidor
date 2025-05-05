@@ -32,8 +32,8 @@ namespace Final.Lab.Infrastructure.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -76,13 +76,25 @@ namespace Final.Lab.Infrastructure.Migrations
                         {
                             Id = 1,
                             Code = "P001",
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Description for Product 1",
                             IsDeleted = false,
                             Name = "Product 1",
                             ProductTypeId = 1,
                             Stock = 100,
                             UnitPrice = 10.00m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "P002",
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Description for Product 2",
+                            IsDeleted = false,
+                            Name = "Product 2",
+                            ProductTypeId = 2,
+                            Stock = 150,
+                            UnitPrice = 20.00m
                         });
                 });
 
@@ -129,10 +141,19 @@ namespace Final.Lab.Infrastructure.Migrations
                         {
                             Id = 1,
                             Code = "T001",
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Description for Type 1",
                             IsDeleted = false,
                             Name = "Type 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "T002",
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Description for Type 2",
+                            IsDeleted = false,
+                            Name = "Type 2"
                         });
                 });
 

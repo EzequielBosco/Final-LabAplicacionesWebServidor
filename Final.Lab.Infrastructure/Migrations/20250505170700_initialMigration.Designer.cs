@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Final.Lab.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250425015526_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20250505170700_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,8 +35,8 @@ namespace Final.Lab.Infrastructure.Migrations
 
                     b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -79,13 +79,25 @@ namespace Final.Lab.Infrastructure.Migrations
                         {
                             Id = 1,
                             Code = "P001",
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Description for Product 1",
                             IsDeleted = false,
                             Name = "Product 1",
                             ProductTypeId = 1,
                             Stock = 100,
                             UnitPrice = 10.00m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "P002",
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Description for Product 2",
+                            IsDeleted = false,
+                            Name = "Product 2",
+                            ProductTypeId = 2,
+                            Stock = 150,
+                            UnitPrice = 20.00m
                         });
                 });
 
@@ -125,29 +137,43 @@ namespace Final.Lab.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductType");
+                    b.ToTable("ProductTypes");
 
                     b.HasData(
                         new
                         {
                             Id = 1,
                             Code = "T001",
-                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Description for Type 1",
                             IsDeleted = false,
                             Name = "Type 1"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Code = "T002",
+                            CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Description = "Description for Type 2",
+                            IsDeleted = false,
+                            Name = "Type 2"
                         });
                 });
 
             modelBuilder.Entity("Final.Lab.Domain.Models.Product", b =>
                 {
                     b.HasOne("Final.Lab.Domain.Models.ProductType", "ProductType")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("ProductTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ProductType");
+                });
+
+            modelBuilder.Entity("Final.Lab.Domain.Models.ProductType", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

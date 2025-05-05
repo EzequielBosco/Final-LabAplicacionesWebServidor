@@ -3,16 +3,18 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Final.Lab.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class initialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ProductType",
+                name: "ProductTypes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -27,7 +29,7 @@ namespace Final.Lab.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductType", x => x.Id);
+                    table.PrimaryKey("PK_ProductTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -37,7 +39,7 @@ namespace Final.Lab.Infrastructure.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Code = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Stock = table.Column<int>(type: "int", nullable: false),
@@ -51,22 +53,30 @@ namespace Final.Lab.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Products_ProductType_ProductTypeId",
+                        name: "FK_Products_ProductTypes_ProductTypeId",
                         column: x => x.ProductTypeId,
-                        principalTable: "ProductType",
+                        principalTable: "ProductTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "ProductType",
+                table: "ProductTypes",
                 columns: new[] { "Id", "Code", "CreatedAt", "DeletedAt", "Description", "IsDeleted", "Name", "UpdatedAt" },
-                values: new object[] { 1, "T001", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "Description for Type 1", false, "Type 1", null });
+                values: new object[,]
+                {
+                    { 1, "T001", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Description for Type 1", false, "Type 1", null },
+                    { 2, "T002", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Description for Type 2", false, "Type 2", null }
+                });
 
             migrationBuilder.InsertData(
                 table: "Products",
                 columns: new[] { "Id", "Code", "CreatedAt", "DeletedAt", "Description", "IsDeleted", "Name", "ProductTypeId", "Stock", "UnitPrice", "UpdatedAt" },
-                values: new object[] { 1, "P001", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc), null, "Description for Product 1", false, "Product 1", 1, 100, 10.00m, null });
+                values: new object[,]
+                {
+                    { 1, "P001", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Description for Product 1", false, "Product 1", 1, 100, 10.00m, null },
+                    { 2, "P002", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Description for Product 2", false, "Product 2", 2, 150, 20.00m, null }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_ProductTypeId",
@@ -81,7 +91,7 @@ namespace Final.Lab.Infrastructure.Migrations
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "ProductType");
+                name: "ProductTypes");
         }
     }
 }
