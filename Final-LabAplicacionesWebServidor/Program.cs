@@ -76,6 +76,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//-- Custom Middleware --------------------
+app.UseMiddleware<Final_LabAplicacionesWebServidor.Middlewares.ExceptionHandlingMiddleware>();
+
 app.UseAuthorization();
 
 app.MapControllers();

@@ -1,9 +1,10 @@
 ﻿using Final.Lab.Application.DTOs.Requests.Product;
+using Final.Lab.Domain.Results.Generic;
 using MediatR;
 
 namespace Final.Lab.Application.UseCases.Product.Update;
 
-public class ProductUpdateCommand(int id, ProductUpdateRequest request) : IRequest<bool>
+public class ProductUpdateCommand(int id, ProductUpdateRequest request) : IRequest<Result<Domain.Results.Unit>>
 {
     public int Id { get; } = id;
     public string? Name { get; } = request.Name;

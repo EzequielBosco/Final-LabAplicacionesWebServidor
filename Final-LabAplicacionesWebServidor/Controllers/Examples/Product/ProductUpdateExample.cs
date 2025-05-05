@@ -10,7 +10,7 @@ public class ProductUpdateExample : IExamplesProvider<ProductUpdateRequest>
         return new ProductUpdateRequest
         {
             Name = "Producto actualizado",
-            Code = "COD",
+            Code = "COD05",
             Description = "Descripción de producto actualizado.",
             UnitPrice = 199.99m,
             Stock = 50,

@@ -1,6 +1,9 @@
 ﻿using Final.Lab.Application.DTOs.Responses.Product;
 using Final.Lab.Application.DTOs.Responses.ProductType;
 using Final.Lab.Domain.Repositories;
+using Final.Lab.Domain.Results;
+using Final.Lab.Domain.Results.Errors;
+using Final.Lab.Domain.Results.Generic;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
@@ -8,13 +11,17 @@ namespace Final.Lab.Application.UseCases.Product.GetAll;
 
 public class ProductGetAllHandler(IProductRepository productRepository, 
                                   ILogger<ProductGetAllHandler> logger) : 
-                                  IRequestHandler<ProductGetAllQuery, List<ProductGetAllResponse>>
+                                  IRequestHandler<ProductGetAllQuery, Result<List<ProductGetAllResponse>>>
 {
-    public async Task<List<ProductGetAllResponse>> Handle(ProductGetAllQuery query, CancellationToken cancellationToken)
+    public async Task<Result<List<ProductGetAllResponse>>> Handle(ProductGetAllQuery query, CancellationToken cancellationToken)
     {
         try
         {
             var products = await productRepository.GetAll(query.IncludeDeleted);
+            if (products == null || !products.Any())
+            {
+                logger.LogWarning("No se encontraron productos.");
+            }
 
             var result = products.Select(x => new ProductGetAllResponse
             {
@@ -40,7 +47,7 @@ public class ProductGetAllHandler(IProductRepository productRepository,
         {
             var msg = "Error al obtener todos los productos.";
             logger.LogError(ex, msg);
-            throw new Exception(msg);
+            return Result.Failure<List<ProductGetAllResponse>>(Error.Unexpected(msg));
         }
     }
 }

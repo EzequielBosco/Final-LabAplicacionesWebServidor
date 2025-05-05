@@ -11,7 +11,7 @@ public class ProductCreateExample : IExamplesProvider<ProductCreateRequest>
         {
             Name = "Nombre producto",
             Description = "Descripcion",
-            Code = "COD",
+            Code = "COD01",
             UnitPrice = 10.0m,
             Stock = 10,
             ProductTypeId = 1

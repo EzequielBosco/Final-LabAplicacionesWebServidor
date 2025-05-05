@@ -1,4 +1,5 @@
 ﻿using Final.Lab.Application.UseCases.ProductType.GetById;
+using Final.Lab.Domain.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,15 +12,8 @@ public class ProducTypesController(ISender sender) : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id, bool? includeDeleted = false)
     {
-        try
-        {
-            var query = new ProductTypeGetByIdQuery(id, includeDeleted);
-            var result = await sender.Send(query);
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(StatusCodes.Status404NotFound, ex.Message);
-        }
+        var query = new ProductTypeGetByIdQuery(id, includeDeleted);
+        var result = await sender.Send(query);
+        return result.ToActionResult();
     }
 }

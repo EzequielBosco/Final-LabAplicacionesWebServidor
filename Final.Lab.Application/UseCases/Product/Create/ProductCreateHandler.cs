@@ -1,44 +1,61 @@
-﻿using Final.Lab.Application.Services.Contracts;
+﻿using Final.Lab.Application.DTOs.Responses.Product;
+using Final.Lab.Application.Services.Contracts;
 using Final.Lab.Application.UseCases.Product.Update;
+using Final.Lab.Domain.Extensions;
 using Final.Lab.Domain.Repositories;
-using FluentValidation;
+using Final.Lab.Domain.Results;
+using Final.Lab.Domain.Results.Errors;
+using Final.Lab.Domain.Results.Generic;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System.Net;
 
 namespace Final.Lab.Application.UseCases.Product.Create;
 
 public class ProductCreateHandler(IProductService productService,
+                                  IProductTypeService productTypeService,
                                   IProductRepository productRepository, 
                                   IUnitOfWork unitOfWork,
                                   ProductCreateValidation validations,
                                   ILogger<ProductUpdateHandler> logger) : 
-                                  IRequestHandler<ProductCreateCommand, bool>
+                                  IRequestHandler<ProductCreateCommand, Result<ProductCreateResponse>>
 {
-    public async Task<bool> Handle(ProductCreateCommand command, CancellationToken cancellationToken)
+    public async Task<Result<ProductCreateResponse>> Handle(ProductCreateCommand command, CancellationToken cancellationToken)
     {
         try
         {
             var validationResult = await validations.ValidateAsync(command);
             if (!validationResult.IsValid)
             {
-                var errors = string.Join(" | ", validationResult.Errors.Select(e => e.ErrorMessage));
-                throw new ValidationException($"Errores de validación: {errors}");
+                var errors = validationResult.Errors.JoinMessages();
+                logger.LogError("Errores de validación: {Errors}", errors);
+                return Result.Failure<ProductCreateResponse>(Error.Validation(errors));
             }
 
-            var existsProduct = productService.ExistsByCode(command.Code).Result;
-            if (existsProduct)
+            var existsProduct = await productService.ExistsByCode(command.Code);
+            if (!existsProduct.IsSuccess)
+            {
+                logger.LogError("Error en Product ExistsByCode: {Errors}", existsProduct.Errors.JoinMessages());
+                return Result.Failure<ProductCreateResponse>(existsProduct.Errors);
+            }
+            else if (existsProduct.Value)
             {
                 var msg = $"El producto con código {command.Code} ya existe.";
                 logger.LogError(msg);
-                throw new Exception(msg);
+                return Result.Failure<ProductCreateResponse>(Error.Exists(msg));
             }
 
-            var existsProductType = productService.GetById(command.ProductTypeId).Result;
-            if (existsProductType == null)
+            var existsProductType = await productTypeService.GetById(command.ProductTypeId);
+            if (!existsProductType.IsSuccess)
+            {
+                logger.LogError("Error en ProductType GetById: {Errors}", existsProductType.Errors.JoinMessages());
+                return Result.Failure<ProductCreateResponse>(existsProductType.Errors);
+            }
+            else if (existsProductType.Value == null)
             {
                 var msg = $"El tipo de producto con id {command.ProductTypeId} no existe.";
                 logger.LogError(msg);
-                throw new Exception(msg);
+                return Result.Failure<ProductCreateResponse>(Error.NotFound(msg));
             }
 
             var product = new Domain.Models.Product
@@ -52,14 +69,34 @@ public class ProductCreateHandler(IProductService productService,
                 CreatedAt = DateTime.UtcNow
             };
 
-            var result = await productRepository.Create(product);
-            await unitOfWork.Save();
-            return result;
+            var create = await productRepository.Create(product);
+            if (!create)
+            {
+                var msg = $"Error al crear el producto en la DB.";
+                logger.LogError(msg);
+                return Result.Failure<ProductCreateResponse>(Error.Unexpected(msg));
+            }
+
+            var save = await unitOfWork.Save();
+            if (save == 0)
+            {
+                var msg = $"Error al guardar el producto en la DB.";
+                logger.LogError(msg);
+                return Result.Failure<ProductCreateResponse>(Error.Unexpected(msg));
+            }
+
+            var result = new ProductCreateResponse
+            {
+                Id = product.Id,
+            };
+
+            return Result.Success(result, HttpStatusCode.Created);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Error al crear el producto.");
-            throw;
-        }    
+            var msg = "Error al crear el producto.";
+            logger.LogError(ex, msg);
+            return Result.Failure<ProductCreateResponse>(Error.Unexpected(msg));
+        }
     }
 }

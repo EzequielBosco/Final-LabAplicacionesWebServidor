@@ -1,9 +1,10 @@
 ﻿using Final.Lab.Application.DTOs.Responses.Product;
+using Final.Lab.Domain.Results.Generic;
 
 namespace Final.Lab.Application.Services.Contracts;
 
 public interface IProductService
 {
-    Task<ProductGetByIdResponse> GetById(int productId);
-    Task<bool> ExistsByCode(string code);
+    Task<Result<ProductGetByIdResponse>> GetById(int productId);
+    Task<Result<bool>> ExistsByCode(string code);
 }
