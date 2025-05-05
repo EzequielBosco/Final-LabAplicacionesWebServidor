@@ -1,6 +1,6 @@
 ﻿using Final.Lab.Application.Services.Contracts;
+using Final.Lab.Domain.Extensions;
 using Final.Lab.Domain.Results;
-using Final.Lab.Domain.Results.Errors;
 using Final.Lab.Domain.Results.Generic;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -14,9 +14,8 @@ public class ProductExistsByCodeHandler(IProductService productService, ILogger<
         var existsProduct = await productService.ExistsByCode(query.Code);
         if (!existsProduct.IsSuccess)
         {
-            var msg = $"Error en ExistsByCode: {existsProduct.Errors}";
-            logger.LogError(msg);
-            return Result.Failure<bool>(Error.Unexpected(msg));
+            logger.LogError("Error en Product ExistsByCode: {Errors}", existsProduct.Errors.JoinMessages());
+            return Result.Failure<bool>(existsProduct.Errors);
         }
 
         return existsProduct.Value;

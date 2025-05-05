@@ -1,6 +1,5 @@
 ﻿using Final.Lab.Application.DTOs.Responses.Product;
 using Final.Lab.Application.Services.Contracts;
-using Final.Lab.Application.UseCases.Product.Update;
 using Final.Lab.Domain.Extensions;
 using Final.Lab.Domain.Repositories;
 using Final.Lab.Domain.Results;
@@ -17,7 +16,7 @@ public class ProductCreateHandler(IProductService productService,
                                   IProductRepository productRepository, 
                                   IUnitOfWork unitOfWork,
                                   ProductCreateValidation validations,
-                                  ILogger<ProductUpdateHandler> logger) : 
+                                  ILogger<ProductCreateHandler> logger) : 
                                   IRequestHandler<ProductCreateCommand, Result<ProductCreateResponse>>
 {
     public async Task<Result<ProductCreateResponse>> Handle(ProductCreateCommand command, CancellationToken cancellationToken)
