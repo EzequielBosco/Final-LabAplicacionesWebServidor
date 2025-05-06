@@ -3,6 +3,7 @@ using Final.Lab.Application.UseCases.Product.Create;
 using Final.Lab.Application.UseCases.Product.ExistsByCode;
 using Final.Lab.Application.UseCases.Product.GetAll;
 using Final.Lab.Application.UseCases.Product.GetById;
+using Final.Lab.Application.UseCases.Product.GetByIds;
 using Final.Lab.Application.UseCases.Product.GetByProductTypeId;
 using Final.Lab.Application.UseCases.Product.SoftDelete;
 using Final.Lab.Application.UseCases.Product.Update;
@@ -29,6 +30,14 @@ public class ProductsController(ISender sender) : ControllerBase
     {
         var query = new ProductGetByIdQuery(id, includeDeleted);
         var result = await sender.Send(query);
+        return result.ToActionResult();
+    }
+
+    [HttpPost("GetByIds")]
+    public async Task<IActionResult> GetByIds(ProductGetByIdsRequest request)
+    {
+        var command = new ProductGetByIdsCommand(request);
+        var result = await sender.Send(command);
         return result.ToActionResult();
     }
 

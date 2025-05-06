@@ -44,7 +44,7 @@ public class OrderCreateHandler(IOrderRepository orderRepository,
                 return Result.Failure<OrderCreateResponse>(productsResponse.Errors);
             }
 
-            if (productsResponse.Value is null)
+            if (productsResponse.Value is null || !productsResponse.Value.Any())
             {
                 var msg = $"Error al obtener los productos de ProductApi.";
                 logger.LogError(msg);
