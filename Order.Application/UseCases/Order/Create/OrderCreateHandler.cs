@@ -67,16 +67,33 @@ public class OrderCreateHandler(IOrderRepository orderRepository,
             }
             var client = clientResponse.Value;
 
-            var orderItems = from p in command.Products
-                             join product in products on p.ProductId equals product.Id
-                             select new Domain.Models.OrderItem
-                             {
-                                 ProductId = product.Id,
-                                 ProductCode = product.Code,
-                                 ProductName = product.Name,
-                                 ProductPrice = product.UnitPrice,
-                                 ProductQuantity = p.Quantity
-                             };
+            var orderItems = new List<Domain.Models.OrderItem>();
+            foreach (var p in command.Products)
+            {
+                var product = products.FirstOrDefault(x => x.Id == p.ProductId);
+                if (product == null)
+                {
+                    var msg = $"Producto con Id {p.ProductId} no encontrado en ProductApi.";
+                    logger.LogError(msg);
+                    return Result.Failure<OrderCreateResponse>(Error.NotFound(msg));
+                }
+
+                if (product.Stock < p.Quantity)
+                {
+                    var msg = $"El producto {product.Id} no tiene stock.";
+                    logger.LogError(msg);
+                    return Result.Failure<OrderCreateResponse>(Error.Validation(msg));
+                }
+
+                orderItems.Add(new Domain.Models.OrderItem
+                {
+                    ProductId = product.Id,
+                    ProductCode = product.Code,
+                    ProductName = product.Name,
+                    ProductPrice = product.UnitPrice,
+                    ProductQuantity = p.Quantity
+                });
+            }
 
             var order = new Domain.Models.Order
             {
@@ -97,6 +114,29 @@ public class OrderCreateHandler(IOrderRepository orderRepository,
                 return Result.Failure<OrderCreateResponse>(Error.Unexpected(msg));
             }
 
+            var stockUpdateRequest = new ProductUpdateStockRequest
+            {
+                Products = command.Products.Select(p => new ProductUpdateStockItem
+                {
+                    ProductId = p.ProductId,
+                    QuantityToSubtract = p.Quantity
+                }).ToList()
+            };
+
+            var stockResponse = await productApiService.UpdateStock(stockUpdateRequest);
+            if (!stockResponse.IsSuccess)
+            {
+                var msg = "Error al actualizar el stock en ProductApi.";
+                logger.LogError(msg);
+                return Result.Failure<OrderCreateResponse>(stockResponse.Errors);
+            }
+            if (stockResponse.Value is null)
+            {
+                var msg = $"Error al obtener los productos con stock actualizado de ProductApi.";
+                logger.LogError(msg);
+                return Result.Failure<OrderCreateResponse>(Error.Unexpected(msg));
+            }
+
             var save = await unitOfWork.Save();
             if (save == 0)
             {
@@ -107,7 +147,7 @@ public class OrderCreateHandler(IOrderRepository orderRepository,
 
             var result = new OrderCreateResponse
             {
-                Id = order.Id,
+                Id = order.Id
             };
 
             return Result.Success(result, HttpStatusCode.Created);

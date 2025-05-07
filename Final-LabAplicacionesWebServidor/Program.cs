@@ -27,7 +27,9 @@ builder.Services.AddSwaggerGen(x =>
     x.ExampleFilters();
 });
 builder.Services.AddSwaggerExamplesFromAssemblyOf<ProductCreateExample>()
-                .AddSwaggerExamplesFromAssemblyOf<ProductUpdateExample>();
+                .AddSwaggerExamplesFromAssemblyOf<ProductUpdateExample>()
+                .AddSwaggerExamplesFromAssemblyOf<ProductUpdateStockExample>()
+                .AddSwaggerExamplesFromAssemblyOf<ProductGetByIdsExample>();
 
 //-- DbContext ---------------------------
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("FinalLabAppWebServidorConnectionString")));

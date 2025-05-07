@@ -2,7 +2,7 @@
 
 namespace Final.Lab.Application.UseCases.Product.GetByIds;
 
-public class ProductGetByIdsValidation : AbstractValidator<ProductGetByIdsCommand>
+public class ProductGetByIdsValidation : AbstractValidator<ProductGetByIdsQuery>
 {
     public ProductGetByIdsValidation()
     {

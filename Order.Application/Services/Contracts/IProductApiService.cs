@@ -7,4 +7,5 @@ namespace Order.Application.Services.Contracts;
 public interface IProductApiService
 {
     Task<Result<List<ProductGetByIdsResponse>>> GetByIds(ProductGetByIdsRequest request);
+    Task<Result<List<ProductUpdateStockResponse>>> UpdateStock(ProductUpdateStockRequest request);
 }

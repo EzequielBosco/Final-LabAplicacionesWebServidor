@@ -29,7 +29,7 @@ public class ProductApiService : IProductApiService
         var response = await _httpClient.PostAsJsonAsync($"{_url}/api/Products/GetByIds", request);
         if (!response.IsSuccessStatusCode)
         {
-            var msg = $"Error al obtener los producto de ProductApi.";
+            var msg = $"Error al obtener los productos de ProductApi.";
             _logger.LogError(msg);
             return Result.Failure<List<ProductGetByIdsResponse>>(Error.Unexpected(msg));
         }
@@ -40,6 +40,27 @@ public class ProductApiService : IProductApiService
             var msg = $"Error al deserializar los productos de ProductApi.";
             _logger.LogError(msg);
             return Result.Failure<List<ProductGetByIdsResponse>>(Error.Unexpected(msg));
+        }
+
+        return result;
+    }
+
+    public async Task<Result<List<ProductUpdateStockResponse>>> UpdateStock(ProductUpdateStockRequest request)
+    {
+        var response = await _httpClient.PatchAsJsonAsync($"{_url}/api/Products/Stock", request);
+        if (!response.IsSuccessStatusCode)
+        {
+            var msg = $"Error al actualizar el stock de los productos de ProductApi.";
+            _logger.LogError(msg);
+            return Result.Failure<List<ProductUpdateStockResponse>>(Error.Unexpected(msg));
+        }
+
+        var result = await response.Content.ReadFromJsonAsync<List<ProductUpdateStockResponse>>();
+        if (result is null)
+        {
+            var msg = $"Error al deserializar los stocks de productos de ProductApi.";
+            _logger.LogError(msg);
+            return Result.Failure<List<ProductUpdateStockResponse>>(Error.Unexpected(msg));
         }
 
         return result;

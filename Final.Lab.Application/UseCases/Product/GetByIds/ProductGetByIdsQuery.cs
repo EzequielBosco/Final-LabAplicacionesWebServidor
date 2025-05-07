@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Final.Lab.Application.UseCases.Product.GetByIds;
 
-public class ProductGetByIdsCommand(ProductGetByIdsRequest request) : IRequest<Result<List<ProductGetByIdsResponse>>>
+public class ProductGetByIdsQuery(ProductGetByIdsRequest request) : IRequest<Result<List<ProductGetByIdsResponse>>>
 {
     public List<int> Ids { get; } = request.Ids;
 }

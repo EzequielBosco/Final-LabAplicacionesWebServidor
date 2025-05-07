@@ -7,6 +7,7 @@ using Final.Lab.Application.UseCases.Product.GetByIds;
 using Final.Lab.Application.UseCases.Product.GetByProductTypeId;
 using Final.Lab.Application.UseCases.Product.SoftDelete;
 using Final.Lab.Application.UseCases.Product.Update;
+using Final.Lab.Application.UseCases.Product.UpdateStock.Commands;
 using Final.Lab.Domain.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -36,12 +37,12 @@ public class ProductsController(ISender sender) : ControllerBase
     [HttpPost("GetByIds")]
     public async Task<IActionResult> GetByIds(ProductGetByIdsRequest request)
     {
-        var command = new ProductGetByIdsCommand(request);
+        var command = new ProductGetByIdsQuery(request);
         var result = await sender.Send(command);
         return result.ToActionResult();
     }
 
-    [HttpGet("exists/{code}")]
+    [HttpGet("Exists/{code}")]
     public async Task<IActionResult> ExistsByCode(string code)
     {
         var query = new ProductExistsByCodeQuery(code);
@@ -61,6 +62,14 @@ public class ProductsController(ISender sender) : ControllerBase
     public async Task<IActionResult> Update(int id, ProductUpdateRequest request)
     {
         var command = new ProductUpdateCommand(id, request);
+        var result = await sender.Send(command);
+        return result.ToActionResult();
+    }
+
+    [HttpPatch("Stock")]
+    public async Task<IActionResult> UpdateStock(ProductUpdateStockRequest request)
+    {
+        var command = new ProductUpdateStockCommand(request);
         var result = await sender.Send(command);
         return result.ToActionResult();
     }
