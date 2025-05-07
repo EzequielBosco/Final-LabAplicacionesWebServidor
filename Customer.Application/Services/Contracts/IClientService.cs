@@ -5,6 +5,6 @@ namespace Customer.Application.Services.Contracts;
 
 public interface IClientService
 {
-    Task<Result<ClientGetByIdResponse>> GetById(int clientId);
+    Task<Result<ClientGetByIdResponse>> GetById(int clientId, bool? includeDeleted = false);
     Task<Result<bool>> ExistsByCode(string code);
 }

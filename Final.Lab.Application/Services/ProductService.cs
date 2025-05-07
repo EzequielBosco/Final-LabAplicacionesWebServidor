@@ -45,11 +45,11 @@ public class ProductService(IProductRepository productRepository,
         }
     }
 
-    public async Task<Result<ProductGetByIdResponse>> GetById(int productId)
+    public async Task<Result<ProductGetByIdResponse>> GetById(int productId, bool? includeDeleted)
     {
         try
         {
-            var query = new ProductGetByIdQuery(productId);
+            var query = new ProductGetByIdQuery(productId, includeDeleted);
             var validationResult = await getByIdValidations.ValidateAsync(query);
             if (!validationResult.IsValid)
             {

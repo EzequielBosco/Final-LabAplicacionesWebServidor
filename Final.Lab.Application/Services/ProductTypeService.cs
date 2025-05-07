@@ -14,11 +14,11 @@ public class ProductTypeService(IProductTypeRepository productTypeRepository,
                                 ProductTypeGetByIdValidation getByIdValidations,
                                 ILogger<ProductTypeService> logger) : IProductTypeService
 {
-    public async Task<Result<ProductTypeGetByIdResponse>> GetById(int productTypeId)
+    public async Task<Result<ProductTypeGetByIdResponse>> GetById(int productTypeId, bool? includeDeleted)
     {
         try
         {
-            var query = new ProductTypeGetByIdQuery(productTypeId);
+            var query = new ProductTypeGetByIdQuery(productTypeId, includeDeleted);
             var validationResult = await getByIdValidations.ValidateAsync(query);
             if (!validationResult.IsValid)
             {

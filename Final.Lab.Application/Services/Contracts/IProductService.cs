@@ -5,6 +5,6 @@ namespace Final.Lab.Application.Services.Contracts;
 
 public interface IProductService
 {
-    Task<Result<ProductGetByIdResponse>> GetById(int productId);
+    Task<Result<ProductGetByIdResponse>> GetById(int productId, bool? includeDeleted = false);
     Task<Result<bool>> ExistsByCode(string code);
 }

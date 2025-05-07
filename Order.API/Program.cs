@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Order.API.Controllers.Examples.Order;
 using Order.Application;
 using Order.Application.UseCases.Order.Create.Validations;
-using Order.Application.UseCases.Order.Update;
 using Order.Infrastructure.Data;
 using Serilog;
 using Swashbuckle.AspNetCore.Filters;
@@ -23,15 +22,13 @@ builder.Services.AddSwaggerGen(x =>
 {
     x.ExampleFilters();
 });
-builder.Services.AddSwaggerExamplesFromAssemblyOf<OrderCreateExample>()
-                .AddSwaggerExamplesFromAssemblyOf<OrderUpdateExample>();
+builder.Services.AddSwaggerExamplesFromAssemblyOf<OrderCreateExample>();
 
 //-- DbContext ---------------------------
 builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("FinalLabAppWebServidorConnectionString")));
 
 //-- FluentValidation --
-builder.Services.AddValidatorsFromAssemblyContaining<OrderCreateValidation>()
-                .AddValidatorsFromAssemblyContaining<OrderUpdateValidation>();
+builder.Services.AddValidatorsFromAssemblyContaining<OrderCreateValidation>();
 builder.Services.AddFluentValidationAutoValidation();
 
 //-- MediatR -----------------------------

@@ -5,5 +5,5 @@ namespace Final.Lab.Application.Services.Contracts;
 
 public interface IProductTypeService
 {
-    Task<Result<ProductTypeGetByIdResponse>> GetById(int id);
+    Task<Result<ProductTypeGetByIdResponse>> GetById(int id, bool? includeDeleted = false);
 }

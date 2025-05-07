@@ -44,11 +44,11 @@ public class ClientService(IClientRepository clientRepository,
         }
     }
 
-    public async Task<Result<ClientGetByIdResponse>> GetById(int clientId)
+    public async Task<Result<ClientGetByIdResponse>> GetById(int clientId, bool? includeDeleted)
     {
         try
         {
-            var query = new ClientGetByIdQuery(clientId);
+            var query = new ClientGetByIdQuery(clientId, includeDeleted);
             var validationResult = await getByIdValidations.ValidateAsync(query);
             if (!validationResult.IsValid)
             {

@@ -10,7 +10,7 @@ public class ClientGetByIdHandler(IClientService clientService) :
 {
     public async Task<Result<ClientGetByIdResponse>> Handle(ClientGetByIdQuery query, CancellationToken cancellationToken)
     {
-        var result = await clientService.GetById(query.Id);
+        var result = await clientService.GetById(query.Id, query.IncludeDeleted);
         return result;
     }
 }

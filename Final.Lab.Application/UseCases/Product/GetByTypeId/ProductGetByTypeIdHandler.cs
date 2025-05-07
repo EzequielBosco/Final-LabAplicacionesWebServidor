@@ -33,7 +33,11 @@ public class ProductGetByTypeIdHandler(IUnitOfWork unitOfWork,
                 return Result.Failure<List<ProductGetByTypeIdResponse>>(Error.NotFound(msg));
             }
 
-            var products = await unitOfWork.GetProductByProductTypeId(query.ProductTypeId);
+            var products = await unitOfWork.GetProductByProductTypeId(query.ProductTypeId, query.IncludeDeleted);
+            if (products == null || !products.Any())
+            {
+                logger.LogWarning($"No se encontraron productos para el tipo de producto con id {query.ProductTypeId}.");
+            }
 
             var result = products.Select(p => new ProductGetByTypeIdResponse
             {
