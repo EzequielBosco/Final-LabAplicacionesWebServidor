@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Customer.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class initialMigrationClient : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,8 +41,8 @@ namespace Customer.Infrastructure.Migrations
                 columns: new[] { "Id", "Address", "Code", "CreatedAt", "DateOfBirth", "DeletedAt", "Email", "FirstName", "IsDeleted", "LastName", "Phone", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, "123 Main St", "", new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "emailjuan@gmail.com", "Juan", false, "Darin", "1234567890", null },
-                    { 2, "345 Main St", "", new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1992, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "emailalfredo@gmail.com", "Alfredo", false, "Favalli", "1298765430", null }
+                    { 1, "123 Main St", "CL-82A127A2", new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "emailjuan@gmail.com", "Juan", false, "Darin", "1234567890", null },
+                    { 2, "345 Main St", "CL-86A517A9", new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(1992, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "emailalfredo@gmail.com", "Alfredo", false, "Favalli", "1298765430", null }
                 });
         }
 

@@ -12,4 +12,5 @@ public class ClientUpdateCommand(int id, ClientUpdateRequest request) : IRequest
     public string? Email { get; } = request.Email;
     public string? Phone { get; } = request.Phone;
     public string? Address { get; } = request.Address;
+    public DateTime? DateOfBirth { get; } = request.DateOfBirth;
 }

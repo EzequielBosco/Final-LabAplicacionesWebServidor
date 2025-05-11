@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Customer.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250505200451_initialMigrationClient")]
-    partial class initialMigrationClient
+    [Migration("20250511083918_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -85,7 +85,7 @@ namespace Customer.Infrastructure.Migrations
                         {
                             Id = 1,
                             Address = "123 Main St",
-                            Code = "",
+                            Code = "CL-82A127A2",
                             CreatedAt = new DateTime(2025, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "emailjuan@gmail.com",
@@ -98,7 +98,7 @@ namespace Customer.Infrastructure.Migrations
                         {
                             Id = 2,
                             Address = "345 Main St",
-                            Code = "",
+                            Code = "CL-86A517A9",
                             CreatedAt = new DateTime(2025, 1, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1992, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "emailalfredo@gmail.com",

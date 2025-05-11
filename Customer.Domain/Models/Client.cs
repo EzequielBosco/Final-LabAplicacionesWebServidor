@@ -21,6 +21,7 @@ public class Client : Entity
     [MaxLength(50)]
     public string Email { get; set; } = string.Empty;
     [Phone]
+    [MinLength(10)]
     [MaxLength(15)]
     public string? Phone { get; set; }
     [Required]

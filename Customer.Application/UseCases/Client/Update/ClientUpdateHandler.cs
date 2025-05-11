@@ -39,6 +39,7 @@ public class ClientUpdateHandler(IClientRepository clientRepository,
             client.Phone = command.Phone ?? client.Phone;
             client.Address = command.Address ?? client.Address;
             client.UpdatedAt = DateTime.UtcNow;
+            client.DateOfBirth = command.DateOfBirth ?? client.DateOfBirth;
 
             var save = await clientRepository.Save();
             if (save == 0)
