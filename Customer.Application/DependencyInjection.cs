@@ -36,7 +36,7 @@ public static class DependencyInjection
         // Services
         services.AddScoped<IClientService, ClientService>();
 
-        // DataContext
+        // Infrastructure
         services.AddInfrastructureData(configuration, connectionString);
 
         return services;

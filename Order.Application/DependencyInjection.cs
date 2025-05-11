@@ -31,7 +31,7 @@ public static class DependencyInjection
         services.AddHttpClient<IProductApiService, ProductApiService>();
         services.AddHttpClient<IClientApiService, ClientApiService>();
 
-        // DataContext
+        // Infrastructure
         services.AddInfrastructureData(configuration, connectionString);
 
         return services;

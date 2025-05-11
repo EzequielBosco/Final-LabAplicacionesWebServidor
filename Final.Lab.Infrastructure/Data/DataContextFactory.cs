@@ -5,12 +5,10 @@ namespace Final.Lab.Infrastructure.Data;
 
 public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
 {
-    public DataContextFactory() { }
-
     public DataContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<DataContext>();
-        optionsBuilder.UseSqlServer("data source=DESKTOP-K143SM2;Database=ComprasDb;Trusted_Connection=True;TrustServerCertificate=True");
+        optionsBuilder.UseSqlServer("data source=DESKTOP-K143SM2;Database=ProductDb;Trusted_Connection=True;TrustServerCertificate=True");
 
         return new DataContext(optionsBuilder.Options);
     }
