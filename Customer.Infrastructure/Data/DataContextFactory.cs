@@ -6,9 +6,6 @@ namespace Customer.Infrastructure.Data;
 
 public class DataContextFactory : IDesignTimeDbContextFactory<DataContext>
 {
-    public DataContextFactory() 
-    { }
-
     public DataContext CreateDbContext(string[] args)
     {
         var apiProjectPath = Path.Combine(Directory.GetCurrentDirectory(), "../Customer.API"); 

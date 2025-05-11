@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Order.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialOrderMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,8 +63,8 @@ namespace Order.Infrastructure.Migrations
                 columns: new[] { "Id", "ClientCode", "ClientId", "ClientName", "Code", "CreatedAt", "DeletedAt", "IsDeleted", "TotalPrice", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, "CL-001", 1, "Client 1", "OR001", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, 150m, null },
-                    { 2, "CL-002", 2, "Client 2", "OR002", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, 100m, null }
+                    { 1, "CL-82A127A2", 1, "Client 1", "OR001", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, 100m, null },
+                    { 2, "CL-86A517A9", 2, "Client 2", "OR002", new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, false, 40m, null }
                 });
 
             migrationBuilder.InsertData(
@@ -72,9 +72,9 @@ namespace Order.Infrastructure.Migrations
                 columns: new[] { "Id", "OrderId", "ProductCode", "ProductId", "ProductName", "ProductPrice", "ProductQuantity" },
                 values: new object[,]
                 {
-                    { 1, 1, "P001", 1, "Product 1", 50m, 2 },
-                    { 2, 1, "P002", 2, "Product 2", 50m, 1 },
-                    { 3, 2, "P002", 2, "Product 2", 50m, 2 }
+                    { 1, 1, "P001", 1, "Product 1", 10m, 2 },
+                    { 2, 1, "P002", 2, "Product 2", 20m, 4 },
+                    { 3, 2, "P002", 2, "Product 2", 20m, 2 }
                 });
 
             migrationBuilder.CreateIndex(

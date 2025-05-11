@@ -12,8 +12,8 @@ using Order.Infrastructure.Data;
 namespace Order.Infrastructure.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250506053334_InitialOrderMigration")]
-    partial class InitialOrderMigration
+    [Migration("20250511091131_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -74,24 +74,24 @@ namespace Order.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            ClientCode = "CL-001",
+                            ClientCode = "CL-82A127A2",
                             ClientId = 1,
                             ClientName = "Client 1",
                             Code = "OR001",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
-                            TotalPrice = 150m
+                            TotalPrice = 100m
                         },
                         new
                         {
                             Id = 2,
-                            ClientCode = "CL-002",
+                            ClientCode = "CL-86A517A9",
                             ClientId = 2,
                             ClientName = "Client 2",
                             Code = "OR002",
                             CreatedAt = new DateTime(2025, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             IsDeleted = false,
-                            TotalPrice = 100m
+                            TotalPrice = 40m
                         });
                 });
 
@@ -137,7 +137,7 @@ namespace Order.Infrastructure.Migrations
                             ProductCode = "P001",
                             ProductId = 1,
                             ProductName = "Product 1",
-                            ProductPrice = 50m,
+                            ProductPrice = 10m,
                             ProductQuantity = 2
                         },
                         new
@@ -147,8 +147,8 @@ namespace Order.Infrastructure.Migrations
                             ProductCode = "P002",
                             ProductId = 2,
                             ProductName = "Product 2",
-                            ProductPrice = 50m,
-                            ProductQuantity = 1
+                            ProductPrice = 20m,
+                            ProductQuantity = 4
                         },
                         new
                         {
@@ -157,7 +157,7 @@ namespace Order.Infrastructure.Migrations
                             ProductCode = "P002",
                             ProductId = 2,
                             ProductName = "Product 2",
-                            ProductPrice = 50m,
+                            ProductPrice = 20m,
                             ProductQuantity = 2
                         });
                 });
