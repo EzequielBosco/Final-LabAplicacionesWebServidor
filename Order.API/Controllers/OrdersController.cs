@@ -11,6 +11,11 @@ namespace Order.API.Controllers;
 [ApiController]
 public class OrdersController(ISender sender) : ControllerBase
 {
+    /// <summary>
+    /// Obtiene todas las ordenes de compra
+    /// </summary>
+    /// <param name="includeDeleted"></param>
+    /// <returns></returns>
     [HttpGet]
     public async Task<IActionResult> GetAll(bool? includeDeleted = false)
     {
@@ -19,6 +24,11 @@ public class OrdersController(ISender sender) : ControllerBase
         return result.ToActionResult();
     }
 
+    /// <summary>
+    /// Crea una nueva orden de compra
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> Create(OrderCreateRequest request)
     {
