@@ -43,6 +43,7 @@ public class OrderGetAllHandler(IOrderRepository orderRepository,
                     ClientId = order.ClientId,
                     TotalPrice = order.TotalPrice,
                     ClientName = order.ClientName,
+                    ClientCode = order.ClientCode,
                     Products = orderProducts,
                 };
             }).ToList(); 

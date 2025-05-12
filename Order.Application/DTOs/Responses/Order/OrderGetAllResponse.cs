@@ -8,6 +8,7 @@ public class OrderGetAllResponse
     public DateTime DateTime { get; set; }
     public int ClientId { get; set; }
     public string ClientName { get; set; } = string.Empty;
+    public string ClientCode { get; set; } = string.Empty;
     public List<OrderProductResponse> Products { get; set; } = new List<OrderProductResponse>();
 }
 
