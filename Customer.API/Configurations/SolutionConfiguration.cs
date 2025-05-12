@@ -10,6 +10,7 @@ public static class SolutionConfiguration
     public static void ConfigureSolution(this WebApplicationBuilder builder)
     {
         builder.ConfigureLogger()
+               .ConfigureCORS()
                .ConfigureApplication();
 
         builder.Services.ConfigureSwagger()
@@ -23,6 +24,22 @@ public static class SolutionConfiguration
         Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
         builder.Logging.ClearProviders();
         builder.Host.UseSerilog();
+
+        return builder;
+    }
+
+    private static WebApplicationBuilder ConfigureCORS(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowFrontend", policy =>
+            {
+                policy.WithOrigins("http://localhost:4200")
+                      .AllowAnyHeader()
+                      .AllowAnyMethod()
+                      .AllowCredentials(); // Authentication
+            });
+        });
 
         return builder;
     }

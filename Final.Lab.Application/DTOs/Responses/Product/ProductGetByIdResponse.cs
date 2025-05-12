@@ -14,6 +14,5 @@ public class ProductGetByIdResponse
     public DateTime? UpdatedAt { get; set; }
     public bool IsDeleted { get; set; }
     public DateTime? DeletedAt { get; set; }
-    public int ProductTypeId { get; set; }
     public ProductTypeGetByIdResponse ProductType { get; set; } = new();
 }

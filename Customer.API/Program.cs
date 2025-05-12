@@ -19,6 +19,9 @@ app.UseHttpsRedirection();
 // Custom Middleware
 app.UseMiddleware<Customer.API.Middlewares.ExceptionHandlingMiddleware>();
 
+// CORS
+app.UseCors("AllowFrontend");
+
 app.UseAuthorization();
 
 app.MapControllers();
