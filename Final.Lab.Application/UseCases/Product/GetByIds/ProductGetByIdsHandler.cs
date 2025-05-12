@@ -26,7 +26,8 @@ public class ProductGetByIdsHandler(IProductRepository productRepository,
                 return Result.Failure<List<ProductGetByIdsResponse>>(Error.Validation(errors));
             }
 
-            var products = await productRepository.GetAllBy(p => command.Ids.Contains(p.Id), includeDeleted: false);
+            var productIds = command.Ids.Distinct().ToList();
+            var products = await productRepository.GetAllBy(p => productIds.Contains(p.Id), includeDeleted: false);
             if (products is null || !products.Any())
             {
                 return new List<ProductGetByIdsResponse>();
