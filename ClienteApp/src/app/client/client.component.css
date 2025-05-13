@@ -1,0 +1,13 @@
+.client-card {
+  background-color: #2c2c2c;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #555;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.client-card h3 {
+  margin-top: 0;
+}

@@ -1,0 +1,19 @@
+<div *ngIf="product">
+  <h2 class="underline-title">Detalle del Producto</h2>
+  <p><strong>ID:</strong> {{ product.id }}</p>
+  <p><strong>Nombre:</strong> {{ product.name }}</p>
+  <p><strong>Código:</strong> {{ product.code }}</p>
+  <p><strong>Descripción:</strong> {{ product.description }}</p>
+  <p><strong>Stock:</strong> {{ product.stock }}</p>
+  <p><strong>Precio:</strong> ${{ product.unitPrice }}</p>
+  <p><strong>Creado el:</strong> {{ product.createdAt | date:'dd/MM/yyyy' }}</p>
+
+  <h3>Tipo de Producto</h3>
+  <p><strong>ID:</strong> {{ product.productType.id }}</p>
+  <p><strong>Nombre:</strong> {{ product.productType.name }}</p>
+  <p><strong>Código:</strong> {{ product.productType.code }}</p>
+  <p><strong>Descripción:</strong> {{ product.productType.description }}</p>
+  <p><strong>Creado el:</strong> {{ product.productType.createdAt | date:'dd/MM/yyyy' }}</p>
+
+  <button><a routerLink="/products">← Volver a la lista</a></button>
+</div>

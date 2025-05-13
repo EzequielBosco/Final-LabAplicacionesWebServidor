@@ -1,0 +1,49 @@
+<h2 class="underline-title">Agregar Producto</h2>
+<form (ngSubmit)="onSubmit()">
+  <label for="name">Nombre:</label>
+  <input id="name" [(ngModel)]="newProduct.name" name="name" required placeholder="Ingrese el nombre del producto" />
+
+  <label for="code">Código:</label>
+  <input id="code" [(ngModel)]="newProduct.code" name="code" required placeholder="Código único del producto" />
+
+  <label for="description">Descripción:</label>
+  <input id="description" [(ngModel)]="newProduct.description" name="description" placeholder="Breve descripción" />
+
+  <label for="unitPrice">Precio:</label>
+  <input id="unitPrice" [(ngModel)]="newProduct.unitPrice" name="unitPrice" type="number" required placeholder="Ej: 100.00" />
+
+  <label for="stock">Stock:</label>
+  <input id="stock" [(ngModel)]="newProduct.stock" name="stock" type="number" required placeholder="Cantidad en stock" />
+
+  <label for="productTypeId">Tipo de Producto:</label>
+  <input id="productTypeId" [(ngModel)]="newProduct.productTypeId" name="productTypeId" type="number" required placeholder="ID del tipo de producto" />
+
+  <button type="submit">Crear</button>
+</form>
+
+<hr />
+
+<h2>Lista de Productos</h2>
+<ng-container *ngIf="isLoading; else content">
+  <p>Cargando productos...</p>
+</ng-container>
+
+<ng-template #content>
+  <p *ngIf="loadError" class="error">{{ loadError }}</p>
+
+  <div class="card-container" *ngIf="products.length > 0; else noProducts">
+    <div class="product-card" *ngFor="let product of products">
+      <h3>{{ product.name }}</h3>
+      <p><strong>Stock:</strong> {{ product.stock }}</p>
+      <p><strong>Precio Unitario:</strong> ${{ product.unitPrice }}</p>
+
+      <button (click)="deleteProduct(product.id)">Eliminar</button>
+      <button [routerLink]="['/products', product.id, 'edit']">Editar</button>
+      <button [routerLink]="['/products', product.id]">Ver Detalle</button>
+    </div>
+  </div>
+
+  <ng-template #noProducts>
+    <p>No hay productos para mostrar.</p>
+  </ng-template>
+</ng-template>

@@ -1,0 +1,12 @@
+<div *ngIf="client">
+  <h2 class="underline-title">Detalle del Cliente</h2>
+  <p><strong>ID:</strong> {{ client.id }}</p>
+  <p><strong>Nombre:</strong> {{ client.firstName }} {{ client.lastName }}</p>
+  <p><strong>Código:</strong> {{ client.code }}</p>
+  <p><strong>Email:</strong> {{ client.email }}</p>
+  <p><strong>Teléfono:</strong> {{ client.phone }}</p>
+  <p><strong>Dirección:</strong> {{ client.address }}</p>
+  <p><strong>Fecha de Nacimiento:</strong> {{ client.dateOfBirth | date:'longDate' }}</p>
+
+  <button><a routerLink="/clients">← Volver a la lista</a></button>
+</div>

@@ -1,0 +1,24 @@
+<h2 class="underline-title">Editar Cliente</h2>
+<form (ngSubmit)="updateClient()">
+  <label for="firstName">Nombre:</label>
+  <input id="firstName" [(ngModel)]="client.firstName" name="firstName" required />
+
+  <label for="lastName">Apellido:</label>
+  <input id="lastName" [(ngModel)]="client.lastName" name="lastName" />
+
+  <label for="email">Email:</label>
+  <input id="email" [(ngModel)]="client.email" name="email" required />
+
+  <label for="phone">Teléfono:</label>
+  <input id="phone" [(ngModel)]="client.phone" name="phone" />
+
+  <label for="address">Dirección:</label>
+  <input id="address" [(ngModel)]="client.address" name="address" required />
+
+  <label for="dateOfBirth">Fecha de nacimiento:</label>
+  <input type="date" id="dateOfBirth" [(ngModel)]="dateOfBirthString" name="dateOfBirth" required />
+
+  <button type="submit">Actualizar</button>
+</form>
+
+<button><a routerLink="/clients">← Volver a la lista</a></button>

@@ -1,0 +1,24 @@
+<h2 class="underline-title">Editar Producto</h2>
+<form (ngSubmit)="updateProduct()">
+  <label for="name">Nombre:</label>
+  <input id="name" [(ngModel)]="product.name" name="name" required />
+
+  <label for="code">Código:</label>
+  <input id="code" [(ngModel)]="product.code" name="code" required />
+
+  <label for="description">Descripción:</label>
+  <input id="description" [(ngModel)]="product.description" name="description" />
+
+  <label for="unitPrice">Precio:</label>
+  <input id="unitPrice" [(ngModel)]="product.unitPrice" name="unitPrice" type="number" required />
+
+  <label for="stock">Stock:</label>
+  <input id="stock" [(ngModel)]="product.stock" name="stock" type="number" required />
+
+  <label for="productTypeId">Tipo de Producto:</label>
+  <input id="productTypeId" [(ngModel)]="productTypeId" name="productTypeId" type="number" required />
+
+  <button type="submit">Actualizar</button>
+</form>
+
+<button><a routerLink="/products">← Volver a la lista</a></button>
